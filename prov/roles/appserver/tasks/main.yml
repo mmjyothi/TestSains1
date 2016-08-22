@@ -1,0 +1,31 @@
+---
+# tasks file for webserver
+
+ - name:          app  packages installation
+   apt:           pkg={{item}} state=latest
+   with_items:
+   - golang
+   - supervisor
+
+ - name:          ensure supervisor started
+   service:       name=supervisor state=started enabled=yes
+
+ - name:          create a directory for the application
+   file:          path=/opt/appserver/ state=directory mode=0755
+
+ - name:          deploy go  application
+   copy:          src=goapp.go dest=/opt/appserver/goapp.go owner=root group=root mode=755
+   register:      _goapp
+ 
+ - name:          compile the goapp
+   command:       go build goapp.go chdir=/opt/appserver
+   when:          _goapp.changed
+   notify:        restart supervisor
+
+ - name:          configure supervisord.conf file
+   copy:          src=appserver.conf dest=/etc/supervisor/conf.d/appserver.conf owner=root group=root mode=644
+   notify:        restart supervisor
+
+ - name:          start the service
+   supervisorctl: name=goapp state=restarted
+

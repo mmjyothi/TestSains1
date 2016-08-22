@@ -1,0 +1,17 @@
+---
+# tasks file for loadbalancer
+
+- name:       installing nginx
+  apt:        pkg=nginx state=latest
+
+- name:       site configuration
+  template:   src=demo.j2 dest=/etc/nginx/sites-available/sainsburys mode=0600 owner=root group=root
+  notify:     restart nginx
+
+- name:       enable site configuration
+  file:       src=/etc/nginx/sites-available/sainsburys state=link dest=/etc/nginx/sites-enabled/sainsburys
+  notify:     restart nginx
+
+- name:       disable site configuration
+  file:       path=/etc/nginx/sites-enabled/default state=absent
+  notify:     restart nginx
