@@ -1,6 +1,8 @@
 #Prerequisites Software
 
-1.Vagrant 2.Virtualbox 3.Ansible
+1.Vagrant
+2.Virtualbox 
+3.Ansible
 
 #Deployment Process
 
