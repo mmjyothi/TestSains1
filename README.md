@@ -18,7 +18,9 @@ $cd TestSains
 
 $vagrant up
 
-2. After the vagrant up is complete you can access to application at the below url
+3. Test/Access Application with Browser
+
+After the vagrant up is complete, you can access to application at the below url
 
 http://10.0.15.11/
 ```
@@ -26,5 +28,5 @@ http://10.0.15.11/
 #Redeployment Steps
 ```
 $ vagrant destroy -f
-
+$ vagrant up
 ```
